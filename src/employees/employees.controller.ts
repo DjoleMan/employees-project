@@ -6,6 +6,7 @@ import {
   Put,
   Delete,
   Body,
+  Query,
 } from '@nestjs/common';
 import { EmployeeDto } from './dtos/EmployeeDto';
 import { EmployeesService } from './employees.service';
@@ -15,8 +16,12 @@ export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Get()
-  async listEmployees() {
+  async listEmployees(
+    @Query() query: { pageSize: string; pageNumber: string },
+  ) {
+    this.employeesService.query = query;
     const employees = await this.employeesService.getEmployees();
+    if (!employees) return 'No more employees in database.';
     return employees;
   }
 
