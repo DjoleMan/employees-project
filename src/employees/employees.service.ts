@@ -8,13 +8,21 @@ import { EmployeeDto } from './dtos/EmployeeDto';
 
 @Injectable()
 export class EmployeesService {
+  public query: { pageSize: string; pageNumber: string };
   constructor(
     @InjectModel('Employee')
     private readonly employeeModel: Model<Employee>,
   ) {}
 
   async getEmployees() {
-    const employees = await this.employeeModel.find().exec();
+    let pageSize = parseInt(this.query.pageSize);
+    let pageNumber = parseInt(this.query.pageNumber);
+
+    const employees = await this.employeeModel
+      .find()
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+    if (employees.length === 0) return;
     return employees;
   }
 
@@ -42,28 +50,30 @@ export class EmployeesService {
   }
 
   async updateEmployee(id: string, employee: EmployeeDto) {
-    let updatedEmployee = await this.employeeModel.findByIdAndUpdate(
-      id,
-      {
-        name: employee.name,
-        email_address: employee.email_address,
-        phone_number: employee.phone_number,
-        home_address: {
-          city: employee.home_address.city,
-          zip_code: employee.home_address.zip_code,
-          address_1: employee.home_address.address_1,
-          address_2: employee.home_address.address_2,
+    let updatedEmployee = await this.employeeModel
+      .findByIdAndUpdate(
+        id,
+        {
+          name: employee.name,
+          email_address: employee.email_address,
+          phone_number: employee.phone_number,
+          home_address: {
+            city: employee.home_address.city,
+            zip_code: employee.home_address.zip_code,
+            address_1: employee.home_address.address_1,
+            address_2: employee.home_address.address_2,
+          },
+          date_of_employment: dateEmployment(employee),
+          date_of_birth: dateBirth(employee),
         },
-        date_of_employment: dateEmployment(employee),
-        date_of_birth: dateBirth(employee),
-      },
-      { new: true },
-    );
+        { new: true },
+      )
+      .exec();
     return updatedEmployee;
   }
 
   async deleteEmployee(id: string) {
-    let employee = await this.employeeModel.findByIdAndRemove(id);
+    let employee = await this.employeeModel.findByIdAndRemove(id).exec();
     return employee;
   }
 }
