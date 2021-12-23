@@ -64,6 +64,6 @@ export interface Employee extends mongoose.Document {
     address_1: string;
     address_2: string;
   };
-  date_of_emloyment: Date;
+  date_of_employment: Date;
   date_of_birth: Date;
 }
