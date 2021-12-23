@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { Employee } from './employees.model';
-import { dateEmployment, dateBirth } from './helpers/dates';
-import { EmployeeDto } from './dtos/EmployeeDto';
+import { Employee } from '../model/employees.model';
+import { dateEmployment, dateBirth } from '../helpers/dates';
+import { EmployeeDto } from '../dtos/EmployeeDto';
 
 @Injectable()
 export class EmployeesService {

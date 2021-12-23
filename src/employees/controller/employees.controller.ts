@@ -8,8 +8,8 @@ import {
   Body,
   Query,
 } from '@nestjs/common';
-import { EmployeeDto } from './dtos/EmployeeDto';
-import { EmployeesService } from './employees.service';
+import { EmployeeDto } from '../dtos/EmployeeDto';
+import { EmployeesService } from '../service/employees.service';
 
 @Controller('api/employees')
 export class EmployeesController {
