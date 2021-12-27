@@ -5,10 +5,10 @@ import {
   MiddlewareConsumer,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { validateId } from '../middlewares/validateId';
-import { EmployeesController } from '../controller/employees.controller';
-import { EmployeesService } from '../service/employees.service';
-import { EmployeeSchema } from '../model/employees.model';
+import { validateId } from './middlewares/validateId';
+import { EmployeesController } from './employees.controller';
+import { EmployeesService } from './employees.service';
+import { EmployeeSchema } from './employees.model';
 
 @Module({
   imports: [
