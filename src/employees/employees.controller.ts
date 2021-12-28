@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { EmployeeDto } from './dtos/EmployeeDto';
 import { EmployeesService } from './employees.service';
+import { ValidateMongoIdPipe } from './pipes/ValidateMongoIdPipe';
 
 @Controller('api/employees')
 export class EmployeesController {
@@ -19,14 +20,18 @@ export class EmployeesController {
   async listEmployees(
     @Query() query: { pageSize: string; pageNumber: string },
   ) {
-    this.employeesService.query = query;
-    const employees = await this.employeesService.getEmployees();
+    const pageSize = parseInt(query.pageSize);
+    const pageNumber = parseInt(query.pageNumber);
+    const employees = await this.employeesService.getEmployees(
+      pageSize,
+      pageNumber,
+    );
     if (!employees) return 'No more employees in database.';
     return employees;
   }
 
   @Get(':id')
-  async getEmployee(@Param('id') id: string) {
+  async getEmployee(@Param('id', new ValidateMongoIdPipe()) id: string) {
     const employee = await this.employeesService.getById(id);
     if (!employee) return 'Employee not found.';
     return employee;
@@ -39,7 +44,10 @@ export class EmployeesController {
   }
 
   @Put(':id')
-  async updateEmployee(@Param('id') id: string, @Body() body: EmployeeDto) {
+  async updateEmployee(
+    @Param('id', new ValidateMongoIdPipe()) id: string,
+    @Body() body: EmployeeDto,
+  ) {
     const employee = await this.employeesService.updateEmployee(id, body);
     if (!employee) return 'Invalid id.';
 
@@ -47,10 +55,10 @@ export class EmployeesController {
   }
 
   @Delete(':id')
-  async deleteEmployee(@Param('id') id: string) {
+  async deleteEmployee(@Param('id', new ValidateMongoIdPipe()) id: string) {
     const employee = await this.employeesService.deleteEmployee(id);
     if (!employee) return 'Invalid id';
 
-    return employee;
+    return `Employee with id ${id} is deleted`;
   }
 }
