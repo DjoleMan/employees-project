@@ -70,12 +70,12 @@ $ npm run start:dev
   {
     "name": "Marko",
     "email_address": "marko@gmail.com",
-    "phone_number": "1234567",
+    "phone_number": "+381651234567",
     "home_address": {
        "city": "Beograd",
        "zip_code": "11000",
        "address_1": "Bulevar Nikole Tesle 50"
     },
-    "date_of_birth": "1991/02/25"
+    "date_of_birth": "1991-02-25"
 }
 </pre>
