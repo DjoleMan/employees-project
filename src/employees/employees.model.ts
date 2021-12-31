@@ -6,12 +6,15 @@ export const EmployeeSchema = new mongoose.Schema({
     required: true,
     min: 2,
     max: 50,
+    trim: true,
   },
   email_address: {
+    unique: true,
     type: String,
     required: true,
     min: 3,
     max: 100,
+    trim: true,
   },
   phone_number: {
     type: String,
@@ -22,26 +25,27 @@ export const EmployeeSchema = new mongoose.Schema({
   home_address: {
     city: {
       type: String,
-      required: true,
       min: 2,
       max: 85,
+      trim: true,
     },
     zip_code: {
       type: String,
-      required: true,
       min: 5,
       max: 10,
+      trim: true,
     },
     address_1: {
       type: String,
-      required: true,
       min: 4,
       max: 50,
+      trim: true,
     },
     address_2: {
       type: String,
       min: 4,
       max: 50,
+      trim: true,
     },
   },
   date_of_employment: {
@@ -51,6 +55,10 @@ export const EmployeeSchema = new mongoose.Schema({
   date_of_birth: {
     type: Date,
     required: true,
+  },
+  softDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 
