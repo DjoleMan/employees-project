@@ -24,9 +24,10 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Simple CRUD application with NestJS and MongoDB for managing employees.
+Make sure you have installed all required npm packages. Look for dependencies in package.json file.
 
-## Installation
+## Install dependencies
 
 ```bash
 $ npm install
@@ -41,33 +42,40 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+## Routes: </br>
 
-```bash
-# unit tests
-$ npm run test
+- GET all employees:</br>
+  http://localhost:3000/api/employees </br>
+  \*Pagination setting: define query in request. </br>
+  example: http://localhost:3000/api/employees/?pageSize=2&pageNumber=4 </br>
+- GET employee by ID(provide valid ID):</br>
+  http://localhost:3000/api/employees/61b1dc035ed03c92ef1a5d13</br>
 
-# e2e tests
-$ npm run test:e2e
+- POST empoyee(provide valid request body) </br>
+  http://localhost:3000/api/employees </br>
+- PUT employee(provide valid request body and valid ID) </br>
+  http://localhost:3000/api/employees/61b1dc035ed03c92ef1a5d13 </br>
+- DELETE employee(provide valid ID)</br>
+  http://localhost:3000/api/employees/61b1dc035ed03c92ef1a5d13
 
-# test coverage
-$ npm run test:cov
-```
+</br></br>
 
-## Support
+## Example of valid request body: </br>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+</br>
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+  <pre>
+  {
+    "name": "Marko",
+    "email_address": "marko@gmail.com",
+    "phone_number": "+381651234567",
+    "home_address": {
+       "city": "Beograd",
+       "zip_code": "11000",
+       "address_1": "Bulevar Nikole Tesle 50"
+    },
+    "date_of_birth": "1991-02-25"
+}
+</pre>
