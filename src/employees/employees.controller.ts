@@ -126,7 +126,8 @@ export class EmployeesController {
     @Param('id', new ValidateMongoIdPipe()) id: string,
   ): Promise<String> {
     const employee = await this.employeesService.deleteEmployee(id);
+    if (employee) return `Employee with id ${id} is deleted.`;
 
-    return `Employee with id ${id} is deleted.`;
+    return 'Deletion faild.';
   }
 }
