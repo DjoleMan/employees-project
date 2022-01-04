@@ -8,7 +8,6 @@ import { EmployeeSchema } from './employees.model';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Employee', schema: EmployeeSchema }]),
-    MongooseModule.forRoot('mongodb://localhost/nestjs-employees'),
   ],
   controllers: [EmployeesController],
   providers: [EmployeesService],
