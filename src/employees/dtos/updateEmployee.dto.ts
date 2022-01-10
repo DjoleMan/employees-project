@@ -6,6 +6,7 @@ import {
   IsPhoneNumber,
   ValidateNested,
   IsString,
+  IsEmpty,
 } from 'class-validator';
 import { IsPostalCodeCustom } from '../helpers/validatePostalCode';
 import { ApiPropertyOptional } from '@nestjs/swagger';
@@ -104,4 +105,7 @@ export class UpdateEmployeeDto {
   @IsOptional()
   @IsDateString()
   date_of_employment: string;
+
+  @IsEmpty()
+  softDeleted: boolean;
 }
