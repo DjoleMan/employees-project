@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Employee } from './employees.model';
@@ -36,25 +36,25 @@ export class EmployeesService {
   }
 
   async createEmployee(employee: EmployeeDto): Promise<Employee> {
-    try {
-      const newEmployee = new this.employeeModel({
-        name: employee.name,
-        email_address: employee.email_address,
-        phone_number: employee.phone_number,
-        home_address: {
-          city: employee.home_address.city,
-          zip_code: employee.home_address.zip_code,
-          address_1: employee.home_address.address_1,
-          address_2: employee.home_address.address_2,
-        },
-        date_of_employment: dateEmployment(employee),
-        date_of_birth: dateBirth(employee),
-      }).save();
+    const newEmployee = new this.employeeModel({
+      name: employee.name,
+      email_address: employee.email_address,
+      phone_number: employee.phone_number,
+      home_address: {
+        city: employee.home_address.city,
+        zip_code: employee.home_address.zip_code,
+        address_1: employee.home_address.address_1,
+        address_2: employee.home_address.address_2,
+      },
+      date_of_employment: dateEmployment(employee),
+      date_of_birth: dateBirth(employee),
+    })
+      .save()
+      .catch((err) => {
+        throw new HttpException(err.message, 400);
+      });
 
-      return newEmployee;
-    } catch (ex) {
-      return ex.message;
-    }
+    return newEmployee;
   }
 
   async updateEmployee(
@@ -70,7 +70,6 @@ export class EmployeesService {
         for (let key in attrs.home_address) {
           employee.home_address[key] = attrs.home_address[key];
         }
-        Object.assign(employee.home_address, attrs.home_address);
         delete attrs.home_address;
       }
       Object.assign(employee, attrs);
